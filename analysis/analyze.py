@@ -201,6 +201,8 @@ def main():
         '',trial_summary,'',
         'Each operation is analyzed separately. Latency percentile summaries describe trial percentile variation; they are not a combined operation percentile. Histogram-derived percentiles use bin upper bounds.',
         '',
+        'Mixed combined bandwidth sums read and write traffic. On a full-duplex link, this bidirectional total can exceed a unidirectional payload ceiling. Compare like patterns and operation directions; this sum does not establish a higher link rate. Separate directional statistics remain available.',
+        '',
         '[Per-trial CSV](per_trial.csv) · [Per-trial JSON](per_trial.json) · [Per-case CSV](per_case.csv) · [Per-case JSON](per_case.json) · [Pooled histogram CSV](pooled_histograms.csv) · [Pooled histogram JSON](pooled_histograms.json)',
         '',
         'Sample standard deviation and Student-t 95% mean confidence intervals use independent trial values. Inspect variation and campaign completeness before drawing conclusions.',
