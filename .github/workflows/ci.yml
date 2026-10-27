@@ -21,3 +21,7 @@ jobs:
       - run: python -m pip install -r requirements-analysis.txt
       - run: python analysis/validate_synthetic.py /tmp/knurl-synthetic-fixtures
       - run: python analysis/analyze.py /tmp/knurl-synthetic-fixtures --output /tmp/knurl-synthetic-report --validation-only
+      - run: make all
+      - run: ./knurl-check check --duration .05 --repetitions 2 --memory-bytes 65536 > /tmp/knurl-actual-checkout.json
+      - run: python analysis/analyze_checkout.py /tmp/knurl-actual-checkout.json --output /tmp/knurl-checkout-report
+      - run: python analysis/validate_checkout.py /tmp/knurl-actual-checkout.json --analysis-dir /tmp/knurl-checkout-report
