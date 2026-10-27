@@ -1,0 +1,47 @@
+[
+  {
+    "pattern": "rand-mix70read30write",
+    "cases": 36,
+    "unweighted_median_bandwidth_ratio": 1.0728458336611548,
+    "ratio_min": 0.8204413627418266,
+    "ratio_max": 1.5548957131714205,
+    "mean_bandwidth_lower_cases": 10,
+    "nonoverlapping_lower_mean_cis": 0
+  },
+  {
+    "pattern": "rand-read",
+    "cases": 36,
+    "unweighted_median_bandwidth_ratio": 1.2654930829149627,
+    "ratio_min": 1.0105214545512022,
+    "ratio_max": 1.9804114969438629,
+    "mean_bandwidth_lower_cases": 0,
+    "nonoverlapping_lower_mean_cis": 0
+  },
+  {
+    "pattern": "rand-write",
+    "cases": 36,
+    "unweighted_median_bandwidth_ratio": 1.1362778359917984,
+    "ratio_min": 0.9753477607915259,
+    "ratio_max": 1.3253047505771425,
+    "mean_bandwidth_lower_cases": 3,
+    "nonoverlapping_lower_mean_cis": 0
+  },
+  {
+    "pattern": "seq-read",
+    "cases": 36,
+    "unweighted_median_bandwidth_ratio": 1.6309010714823098,
+    "ratio_min": 1.186426733756422,
+    "ratio_max": 1.9822208985000889,
+    "mean_bandwidth_lower_cases": 0,
+    "nonoverlapping_lower_mean_cis": 0
+  },
+  {
+    "pattern": "seq-write",
+    "cases": 36,
+    "unweighted_median_bandwidth_ratio": 1.1604816639366908,
+    "ratio_min": 1.0261147035209812,
+    "ratio_max": 1.493142030382651,
+    "mean_bandwidth_lower_cases": 0,
+    "nonoverlapping_lower_mean_cis": 0
+  }
+]

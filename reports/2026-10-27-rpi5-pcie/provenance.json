@@ -1,0 +1,27 @@
+{
+  "collection_date": "2026-10-27",
+  "benchmark_source_commit": "d259b583df9bf2788c6c0b0c7b60b3d8c1e4924c",
+  "benchmark_source_file": "src/knurl.c",
+  "benchmark_source_sha256": "7325250200a4547866cfa12959fb08c52c547920201197c21278199d645c0a3e",
+  "benchmark_executable_sha256": "915f39aaa79447205ed938b7e77d18183bbff930de6b02f8e369b75b201d4e3f",
+  "platform": "Raspberry Pi 5, Linux aarch64, NVMe single-lane PCIe",
+  "experiments": {
+    "gen2": "5.0 GT/s x1",
+    "gen3": "8.0 GT/s x1"
+  },
+  "raw_trial_files": 3600,
+  "commit_markers": 3600,
+  "cases_per_label": 180,
+  "repetitions_per_case": 10,
+  "matched_operation_views": 252,
+  "full_case_metric_summaries": 4536,
+  "per_trial_operation_rows": 5040,
+  "sanitization": "Raw measurement bytes unchanged. Archive ownership/time metadata normalized. Derived per_trial source strings converted to documented archive-relative references. Health evidence is aggregate/sanitized; no raw health, boot/config files or private identifiers included.",
+  "interpretation": "One chronological before/after campaign pair; within-campaign uncertainty is not replicated boot-session uncertainty.",
+  "analysis_environment": {
+    "python": "3.14.6",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.2"
+  }
+}

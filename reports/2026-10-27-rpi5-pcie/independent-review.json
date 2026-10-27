@@ -1,0 +1,714 @@
+{
+  "review_date": "2026-10-27",
+  "scope": "Independent offline raw-record, matrix, counters, health, and selected statistical cross-check; no network or workload execution.",
+  "status": "PASS",
+  "issues": [],
+  "modes": {
+    "gen2": {
+      "trials": 1800,
+      "cases": 180,
+      "repetitions_per_case": [
+        10
+      ],
+      "committed_checksums_verified": 1800,
+      "total_operations": 179198369,
+      "concurrency_kind": "synchronous_worker_threads",
+      "progress": {
+        "schema_version": 1,
+        "completed": 1800,
+        "total": 1800,
+        "current_trial_id": 1800,
+        "errors": 0,
+        "status": "complete"
+      }
+    },
+    "gen3": {
+      "trials": 1800,
+      "cases": 180,
+      "repetitions_per_case": [
+        10
+      ],
+      "committed_checksums_verified": 1800,
+      "total_operations": 222222283,
+      "concurrency_kind": "synchronous_worker_threads",
+      "progress": {
+        "schema_version": 1,
+        "completed": 1800,
+        "total": 1800,
+        "current_trial_id": 1800,
+        "errors": 0,
+        "status": "complete"
+      }
+    }
+  },
+  "same_seeded_cell_and_repetition_order": true,
+  "health": {
+    "gen2": {
+      "telemetry_samples": 736,
+      "samples_with_speed": 736,
+      "link_speed_GT_s": [
+        5.0
+      ],
+      "link_widths": [
+        1
+      ],
+      "throttle_values": [
+        0
+      ],
+      "cpu_temperature_C_min_max": [
+        45.5,
+        51.0
+      ],
+      "governors": [
+        "performance"
+      ],
+      "aer_before_after_identical": true,
+      "aer_counter_values": [
+        0
+      ],
+      "smart_error_and_thermal_deltas": {
+        "critical_warning": 0,
+        "media_errors": 0,
+        "num_err_log_entries": 0,
+        "unsafe_shutdowns": 0,
+        "warning_temp_time": 0,
+        "critical_comp_time": 0,
+        "thm_temp1_trans_count": 0,
+        "thm_temp2_trans_count": 0,
+        "thm_temp1_total_time": 0,
+        "thm_temp2_total_time": 0
+      },
+      "smart_temperature_K_before_after": [
+        314,
+        331
+      ],
+      "kernel_error_matches": [],
+      "supervisor_completion": {
+        "full_integrity_verification_completion_messages": 2,
+        "supervisor_final_exit_zero": true,
+        "original_governor": "schedutil",
+        "restored_governor": "schedutil"
+      }
+    },
+    "gen3": {
+      "telemetry_samples": 735,
+      "samples_with_speed": 735,
+      "link_speed_GT_s": [
+        8.0
+      ],
+      "link_widths": [
+        1
+      ],
+      "throttle_values": [
+        0
+      ],
+      "cpu_temperature_C_min_max": [
+        45.0,
+        52.7
+      ],
+      "governors": [
+        "performance"
+      ],
+      "aer_before_after_identical": true,
+      "aer_counter_values": [
+        0
+      ],
+      "smart_error_and_thermal_deltas": {
+        "critical_warning": 0,
+        "media_errors": 0,
+        "num_err_log_entries": 0,
+        "unsafe_shutdowns": 0,
+        "warning_temp_time": 0,
+        "critical_comp_time": 0,
+        "thm_temp1_trans_count": 0,
+        "thm_temp2_trans_count": 0,
+        "thm_temp1_total_time": 0,
+        "thm_temp2_total_time": 0
+      },
+      "smart_temperature_K_before_after": [
+        318,
+        330
+      ],
+      "kernel_error_matches": [],
+      "supervisor_completion": {
+        "full_integrity_verification_completion_messages": 2,
+        "supervisor_final_exit_zero": true,
+        "original_governor": "schedutil",
+        "restored_governor": "schedutil"
+      }
+    }
+  },
+  "selected_cases": [
+    {
+      "file_size": 17179869184,
+      "block_size": 1048576,
+      "concurrency": 1,
+      "pattern": "seq-read",
+      "metrics": {
+        "bandwidth_mib_s": {
+          "gen2": {
+            "n": 10,
+            "min": 364.51097366235086,
+            "max": 439.6661437304641,
+            "mean": 427.5607493915377,
+            "median": 435.04960531999814,
+            "sample_sd": 22.378319513870213,
+            "mean_ci95_student_t": [
+              411.552263982877,
+              443.5692348001984
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 570.3851551559387,
+            "max": 760.7809655647769,
+            "mean": 731.2213516256481,
+            "median": 757.2922271823951,
+            "sample_sd": 58.96164371430436,
+            "mean_ci95_student_t": [
+              689.0427326061965,
+              773.3999706450998
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 1.710216273748819,
+          "paired_percentile_bootstrap_ci95": [
+            1.672733275557252,
+            1.7399872457194785
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        },
+        "iops": {
+          "gen2": {
+            "n": 10,
+            "min": 364.51097366235086,
+            "max": 439.6661437304641,
+            "mean": 427.5607493915377,
+            "median": 435.04960531999814,
+            "sample_sd": 22.378319513870213,
+            "mean_ci95_student_t": [
+              411.552263982877,
+              443.5692348001984
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 570.3851551559387,
+            "max": 760.7809655647769,
+            "mean": 731.2213516256481,
+            "median": 757.2922271823951,
+            "sample_sd": 58.96164371430436,
+            "mean_ci95_student_t": [
+              689.0427326061965,
+              773.3999706450998
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 1.710216273748819,
+          "paired_percentile_bootstrap_ci95": [
+            1.672733275557252,
+            1.7399872457194785
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        },
+        "mean_latency_us": {
+          "gen2": {
+            "n": 10,
+            "min": 2274.3190977717145,
+            "max": 2743.291057597367,
+            "mean": 2345.364121459228,
+            "median": 2298.477251755411,
+            "sample_sd": 140.82305285541426,
+            "mean_ci95_student_t": [
+              2244.6253780767465,
+              2446.1028648417096
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 1314.3182518401682,
+            "max": 1753.092608345021,
+            "mean": 1377.298394894903,
+            "median": 1320.3895426736137,
+            "sample_sd": 135.701739582325,
+            "mean_ci95_student_t": [
+              1280.2232183300555,
+              1474.3735714597503
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 0.5872428857818383,
+          "paired_percentile_bootstrap_ci95": [
+            0.5747229104428241,
+            0.6026423007957911
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        },
+        "p99_latency_us": {
+          "gen2": {
+            "n": 10,
+            "min": 2359.295,
+            "max": 3670.015,
+            "mean": 2569.0102,
+            "median": 2490.367,
+            "sample_sd": 391.7569374545054,
+            "mean_ci95_student_t": [
+              2288.7641693230776,
+              2849.2562306769228
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 2031.615,
+            "max": 3407.871,
+            "mean": 2260.991,
+            "median": 2097.151,
+            "sample_sd": 417.06855010657426,
+            "mean_ci95_student_t": [
+              1962.638132410718,
+              2559.343867589282
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 0.8801019941454494,
+          "paired_percentile_bootstrap_ci95": [
+            0.8494623038434689,
+            0.9093025783512503
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        }
+      }
+    },
+    {
+      "file_size": 17179869184,
+      "block_size": 1048576,
+      "concurrency": 1,
+      "pattern": "seq-write",
+      "metrics": {
+        "bandwidth_mib_s": {
+          "gen2": {
+            "n": 10,
+            "min": 131.13182033342076,
+            "max": 280.9900552561695,
+            "mean": 238.3250437137101,
+            "median": 241.53443150464597,
+            "sample_sd": 41.50482978599351,
+            "mean_ci95_student_t": [
+              208.63427709442908,
+              268.0158103329911
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 181.3554408956214,
+            "max": 307.7458603019472,
+            "mean": 281.40771774159094,
+            "median": 304.5,
+            "sample_sd": 49.24794544401578,
+            "mean_ci95_student_t": [
+              246.17785986247725,
+              316.63757562070464
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 1.1807727520219582,
+          "paired_percentile_bootstrap_ci95": [
+            1.0199465957987772,
+            1.3847821681948311
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        },
+        "iops": {
+          "gen2": {
+            "n": 10,
+            "min": 131.13182033342076,
+            "max": 280.9900552561695,
+            "mean": 238.3250437137101,
+            "median": 241.53443150464597,
+            "sample_sd": 41.50482978599351,
+            "mean_ci95_student_t": [
+              208.63427709442908,
+              268.0158103329911
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 181.3554408956214,
+            "max": 307.7458603019472,
+            "mean": 281.40771774159094,
+            "median": 304.5,
+            "sample_sd": 49.24794544401578,
+            "mean_ci95_student_t": [
+              246.17785986247725,
+              316.63757562070464
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 1.1807727520219582,
+          "paired_percentile_bootstrap_ci95": [
+            1.0199465957987772,
+            1.3847821681948311
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        },
+        "mean_latency_us": {
+          "gen2": {
+            "n": 10,
+            "min": 3230.8171117437723,
+            "max": 7297.803583963691,
+            "mean": 4047.9915976242764,
+            "median": 3812.1002103275114,
+            "sample_sd": 1173.2971353275036,
+            "mean_ci95_student_t": [
+              3208.665389091411,
+              4887.317806157142
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 2921.3832313190383,
+            "max": 5186.018992282249,
+            "mean": 3361.468880328276,
+            "median": 2955.8857381594353,
+            "sample_sd": 864.4094815986198,
+            "mean_ci95_student_t": [
+              2743.1075880649023,
+              3979.83017259165
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 0.8304041150433925,
+          "paired_percentile_bootstrap_ci95": [
+            0.6530990970775898,
+            1.0338279045964611
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        },
+        "p99_latency_us": {
+          "gen2": {
+            "n": 10,
+            "min": 4980.735,
+            "max": 67108.863,
+            "mean": 15676.2102,
+            "median": 5505.023,
+            "sample_sd": 22140.71251893212,
+            "mean_ci95_student_t": [
+              -162.30140392058638,
+              31514.721803920584
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 4718.591,
+            "max": 67108.863,
+            "mean": 17196.6454,
+            "median": 4718.591,
+            "sample_sd": 26306.048447657166,
+            "mean_ci95_student_t": [
+              -1621.5680262954047,
+              36014.85882629541
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 1.096989972742264,
+          "paired_percentile_bootstrap_ci95": [
+            0.19867546294911126,
+            4.403941526354997
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        }
+      }
+    },
+    {
+      "file_size": 17179869184,
+      "block_size": 4096,
+      "concurrency": 32,
+      "pattern": "rand-read",
+      "metrics": {
+        "bandwidth_mib_s": {
+          "gen2": {
+            "n": 10,
+            "min": 302.9539923297434,
+            "max": 313.60618601193505,
+            "mean": 307.59381257532067,
+            "median": 305.7328587675321,
+            "sample_sd": 3.701125044692383,
+            "mean_ci95_student_t": [
+              304.94618721467356,
+              310.2414379359678
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 308.8044197294564,
+            "max": 313.3055341218592,
+            "mean": 310.8301468945629,
+            "median": 310.5867934890672,
+            "sample_sd": 1.3980930681338102,
+            "mean_ci95_student_t": [
+              309.830011363059,
+              311.83028242606684
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 1.0105214545512022,
+          "paired_percentile_bootstrap_ci95": [
+            1.0028945429697347,
+            1.01732474059613
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        },
+        "iops": {
+          "gen2": {
+            "n": 10,
+            "min": 77556.22203641431,
+            "max": 80283.18361905537,
+            "mean": 78744.01601928209,
+            "median": 78267.61184448822,
+            "sample_sd": 947.48801144125,
+            "mean_ci95_student_t": [
+              78066.22392695643,
+              79421.80811160775
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 79053.93145074084,
+            "max": 80206.21673519595,
+            "mean": 79572.5176050081,
+            "median": 79510.2191332012,
+            "sample_sd": 357.9118254422554,
+            "mean_ci95_student_t": [
+              79316.4829089431,
+              79828.55230107311
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 1.0105214545512022,
+          "paired_percentile_bootstrap_ci95": [
+            1.0028945429697347,
+            1.01732474059613
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        },
+        "mean_latency_us": {
+          "gen2": {
+            "n": 10,
+            "min": 398.4375545707945,
+            "max": 412.46016592531856,
+            "mean": 406.28570143051394,
+            "median": 408.7107569912278,
+            "sample_sd": 4.865310557070494,
+            "mean_ci95_student_t": [
+              402.8052679237356,
+              409.7661349372923
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 398.7995966393888,
+            "max": 404.62339055290215,
+            "mean": 401.98627523933544,
+            "median": 402.2950092531057,
+            "sample_sd": 1.8060418415849344,
+            "mean_ci95_student_t": [
+              400.69431073545377,
+              403.2782397432171
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 0.9894177270427179,
+          "paired_percentile_bootstrap_ci95": [
+            0.9828704497126514,
+            0.9969463287826839
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        },
+        "p99_latency_us": {
+          "gen2": {
+            "n": 10,
+            "min": 1015.807,
+            "max": 1114.111,
+            "mean": 1035.4678000000001,
+            "median": 1015.807,
+            "sample_sd": 31.656895547942398,
+            "mean_ci95_student_t": [
+              1012.821821147628,
+              1058.1137788523722
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 1015.807,
+            "max": 1114.111,
+            "mean": 1045.2982,
+            "median": 1048.575,
+            "sample_sd": 28.69149813214131,
+            "mean_ci95_student_t": [
+              1024.773538668021,
+              1065.8228613319789
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 1.0094936800545606,
+          "paired_percentile_bootstrap_ci95": [
+            0.9813083934447799,
+            1.038095275002398
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        }
+      }
+    },
+    {
+      "file_size": 17179869184,
+      "block_size": 4096,
+      "concurrency": 32,
+      "pattern": "rand-write",
+      "metrics": {
+        "bandwidth_mib_s": {
+          "gen2": {
+            "n": 10,
+            "min": 85.927734002775,
+            "max": 241.5983227028382,
+            "mean": 182.05778357158957,
+            "median": 195.0188535500665,
+            "sample_sd": 52.39035130666518,
+            "mean_ci95_student_t": [
+              144.57998395721137,
+              219.53558318596777
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 160.10982166474173,
+            "max": 246.10763245774902,
+            "mean": 226.2187961790595,
+            "median": 240.4723073751113,
+            "sample_sd": 33.52893818236165,
+            "mean_ci95_student_t": [
+              202.23363869985096,
+              250.20395365826803
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 1.2425659136408456,
+          "paired_percentile_bootstrap_ci95": [
+            1.0525131763698354,
+            1.5156495549854876
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        },
+        "iops": {
+          "gen2": {
+            "n": 10,
+            "min": 21997.4999047104,
+            "max": 61849.17061192658,
+            "mean": 46606.79259432693,
+            "median": 49924.82650881702,
+            "sample_sd": 13411.929934506286,
+            "mean_ci95_student_t": [
+              37012.47589304611,
+              56201.10929560775
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 40988.11434617388,
+            "max": 63003.55390918375,
+            "mean": 57912.01182183923,
+            "median": 61560.910688028496,
+            "sample_sd": 8583.408174684582,
+            "mean_ci95_student_t": [
+              51771.811507161845,
+              64052.21213651662
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 1.2425659136408456,
+          "paired_percentile_bootstrap_ci95": [
+            1.0525131763698354,
+            1.5156495549854876
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        },
+        "mean_latency_us": {
+          "gen2": {
+            "n": 10,
+            "min": 515.93809502915,
+            "max": 1453.234958929437,
+            "mean": 764.8435159340355,
+            "median": 639.552076450936,
+            "sample_sd": 318.07321823031634,
+            "mean_ci95_student_t": [
+              537.3076426630423,
+              992.3793892050287
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 505.81669222100896,
+            "max": 778.5995292020456,
+            "mean": 564.5834426514899,
+            "median": 517.6848743540697,
+            "sample_sd": 106.0536668324674,
+            "mean_ci95_student_t": [
+              488.71721967749784,
+              640.449665625482
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 0.7381685676736296,
+          "paired_percentile_bootstrap_ci95": [
+            0.57373956991011,
+            0.943510205396309
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        },
+        "p99_latency_us": {
+          "gen2": {
+            "n": 10,
+            "min": 3538.943,
+            "max": 62914.559,
+            "mean": 15571.3526,
+            "median": 4456.447,
+            "sample_sd": 23871.006583172777,
+            "mean_ci95_student_t": [
+              -1504.9368121657735,
+              32647.642012165772
+            ]
+          },
+          "gen3": {
+            "n": 10,
+            "min": 4456.447,
+            "max": 4980.735,
+            "mean": 4718.591,
+            "median": 4718.591,
+            "sample_sd": 214.03967971071762,
+            "mean_ci95_student_t": [
+              4565.476236963406,
+              4871.705763036594
+            ]
+          },
+          "gen3_over_gen2_ratio_of_means": 0.30303025827056285,
+          "paired_percentile_bootstrap_ci95": [
+            0.14737640802844149,
+            1.1254019600238274
+          ],
+          "bootstrap_resamples": 20000,
+          "bootstrap_seed": 20261027
+        }
+      }
+    }
+  ],
+  "analysis_rows_cross_checked": 32,
+  "ratio_ci_method": "Paired repetition-index percentile bootstrap of ratio of arithmetic means, 20000 resamples. Pairing reflects same cell/repetition order, not simultaneous physical measurements.",
+  "limitations": [
+    "Gen2 campaign preceded Gen3: link mode is confounded with chronological SSD state/aging/temperature and no randomized crossover campaign was performed.",
+    "Confidence intervals quantify within-campaign repeated-trial variation; not uncertainty across independent boards, SSDs, boots, or randomized link-mode campaigns.",
+    "Five-second windows and short file-based workloads do not establish long-term sustained write performance/endurance.",
+    "Synchronous worker concurrency is not native asynchronous queue depth. Throughput includes generator overhead; latency measures transfer calls, not fsync durability.",
+    "P99 values are histogram-bin upper bounds; comparison summarizes trial P99s rather than recomputing a pooled percentile.",
+    "Bootstrap intervals are exploratory selected-case intervals without multiple-comparison adjustment.",
+    "Bootstrap and Student-t intervals assume exchangeable/independent repetition pairs or trials; serial drift and shared SSD state are not modeled."
+  ]
+}

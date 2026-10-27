@@ -147,7 +147,7 @@ def plots(out, cases, baseline=None, candidate=None, validation=False):
             for (i,j),value in np.ndenumerate(matrix):
                 if np.isfinite(value):ax.text(j,i,f'{value:.2f}×',ha='center',va='center',fontsize=8)
         for ax in list(axes.flat)[len(facets):]:ax.set_visible(False)
-        fig.suptitle(f'{candidate} / {baseline} mean bandwidth ratio (green ≥ 2×; labels show exact ratio)')
+        fig.suptitle(f'{candidate} / {baseline} mean bandwidth ratio (1× = unchanged; cell values rounded to 0.01×)')
         save_figure(fig,charts/'comparison_gain.png',validation);plt.close(fig)
     names=['bandwidth_latency.png','block_bytes_sweep.png','concurrency_sweep.png','file_bytes_sweep.png','variation_ci.png']
     if gain:names.append('comparison_gain.png')

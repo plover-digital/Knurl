@@ -1,0 +1,85 @@
+{
+  "validator_version": 1,
+  "status": "PASS",
+  "allow_partial": false,
+  "complete": true,
+  "semantics": "Checks committed trial artifacts and sampled per-trial verification flags; does not establish full-file post-campaign verification or hardware health.",
+  "checksum": {
+    "initial": 1469598103934665603,
+    "prime": 1099511628211,
+    "arithmetic": "XOR byte then multiply modulo 2^64; exact raw bytes and newline marker"
+  },
+  "issues": [],
+  "manifest": {
+    "schema_version": 1,
+    "engine_version": "1.0",
+    "mode": "gen2",
+    "seed": 20261027,
+    "duration_seconds": 5,
+    "warmup_seconds": 1,
+    "direct": true,
+    "repetitions": 10,
+    "total_trials": 1800,
+    "concurrency_kind": "synchronous_worker_threads",
+    "order": "balanced_repetition_blocks_fisher_yates_splitmix64_v1",
+    "write_buffer_generation": "seeded_offset_hash_each_write_outside_latency_timer_inside_measured_window",
+    "histogram": {
+      "unit": "ns",
+      "bins": 1024,
+      "sub_bins_per_octave": 16,
+      "percentiles": "bin_upper_bound"
+    },
+    "file_sizes": [
+      268435456,
+      4294967296,
+      17179869184
+    ],
+    "block_sizes": [
+      4096,
+      16384,
+      65536,
+      1048576
+    ],
+    "concurrency": [
+      1,
+      8,
+      32
+    ],
+    "patterns": [
+      "seq-read",
+      "seq-write",
+      "rand-read",
+      "rand-write",
+      "rand-mix70read30write"
+    ]
+  },
+  "manifest_sha256": "bf3edba280f4fa0edd4a7f32b52fec897efd6b81cb5a15d272436cf41d880658",
+  "expected_trials": 1800,
+  "missing_trial_ids": [],
+  "extra_trial_ids": [],
+  "missing_ok_ids": [],
+  "orphan_ok_ids": [],
+  "progress": {
+    "schema_version": 1,
+    "completed": 1800,
+    "total": 1800,
+    "current_trial_id": 1800,
+    "errors": 0,
+    "status": "complete"
+  },
+  "counts": {
+    "json": 1800,
+    "ok": 1800,
+    "checksum_matches": 1800,
+    "validated_trials": 1800,
+    "case_configurations": 180,
+    "repetitions_per_observed_case": [
+      10
+    ],
+    "valid_directional_histograms": 3600
+  },
+  "checks": {
+    "all_committed_raw_checksums_match": true,
+    "exact_seeded_order_reproduced": true
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "raw_archive_member_count": 7204,
+  "raw_archive_trial_records": 3600,
+  "raw_archive_commit_markers": 3600,
+  "raw_archive_manifest_progress_files": 4,
+  "raw_bytes_preserved": true,
+  "normalized_archive_metadata": {
+    "uid": 0,
+    "gid": 0,
+    "uname": "",
+    "gname": "",
+    "mtime": 0,
+    "gzip_mtime": 0
+  },
+  "extracted_archive_validation": {
+    "gen2": "PASS:1800 committed trials",
+    "gen3": "PASS:1800 committed trials"
+  },
+  "derived_trial_rows": 5040,
+  "only_derived_change": "source string replaced with archive-relative reference",
+  "comparison_rebuild_byte_identical": true,
+  "private_identifier_scan": "PASS for text and every decompressed raw member; no private paths, IPs, MACs or sensitive identifier keys",
+  "markdown_local_links": "PASS",
+  "health_publication": "sanitized aggregate JSON only; no raw health/boot/config/spec records"
+}

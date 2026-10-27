@@ -1,0 +1,197 @@
+{
+  "scope": "Sanitized aggregate observations; raw health, boot and operational configuration records are not included.",
+  "gen2": {
+    "cpu_temperature_C": {
+      "n": 736,
+      "min": 45.5,
+      "max": 51.0,
+      "first": 45.5,
+      "last": 49.4
+    },
+    "throttled_values": {
+      "0x0": 736
+    },
+    "observed_link_values": {
+      "5.0 GT/s PCIe width=1": 736
+    },
+    "measurement_governors": {
+      "performance": 736
+    },
+    "smart_temperature_K_before_after": [
+      314,
+      331
+    ],
+    "selected_smart_before_after": {
+      "critical_warning": [
+        0,
+        0
+      ],
+      "media_errors": [
+        0,
+        0
+      ],
+      "num_err_log_entries": [
+        0,
+        0
+      ],
+      "unsafe_shutdowns": [
+        7,
+        7
+      ],
+      "power_cycles": [
+        10,
+        10
+      ],
+      "warning_temp_time": [
+        0,
+        0
+      ],
+      "critical_comp_time": [
+        0,
+        0
+      ],
+      "thm_temp1_trans_count": [
+        0,
+        0
+      ],
+      "thm_temp2_trans_count": [
+        0,
+        0
+      ],
+      "thm_temp1_total_time": [
+        0,
+        0
+      ],
+      "thm_temp2_total_time": [
+        0,
+        0
+      ]
+    },
+    "selected_smart_delta": {
+      "critical_warning": 0,
+      "media_errors": 0,
+      "num_err_log_entries": 0,
+      "unsafe_shutdowns": 0,
+      "power_cycles": 0,
+      "warning_temp_time": 0,
+      "critical_comp_time": 0,
+      "thm_temp1_trans_count": 0,
+      "thm_temp2_trans_count": 0,
+      "thm_temp1_total_time": 0,
+      "thm_temp2_total_time": 0
+    },
+    "aer_counters_checked": 117,
+    "aer_nonzero_before_count": 0,
+    "aer_nonzero_after_count": 0,
+    "aer_changed_counter_count": 0,
+    "captured_storage_error_line_count": 0,
+    "final_full_file_verification_complete": true,
+    "supervisor_exit_zero_governor_restored": true
+  },
+  "gen3": {
+    "cpu_temperature_C": {
+      "n": 735,
+      "min": 45.0,
+      "max": 52.7,
+      "first": 49.9,
+      "last": 46.6
+    },
+    "throttled_values": {
+      "0x0": 735
+    },
+    "observed_link_values": {
+      "8.0 GT/s PCIe width=1": 735
+    },
+    "measurement_governors": {
+      "performance": 735
+    },
+    "smart_temperature_K_before_after": [
+      318,
+      330
+    ],
+    "selected_smart_before_after": {
+      "critical_warning": [
+        0,
+        0
+      ],
+      "media_errors": [
+        0,
+        0
+      ],
+      "num_err_log_entries": [
+        0,
+        0
+      ],
+      "unsafe_shutdowns": [
+        7,
+        7
+      ],
+      "power_cycles": [
+        11,
+        11
+      ],
+      "warning_temp_time": [
+        0,
+        0
+      ],
+      "critical_comp_time": [
+        0,
+        0
+      ],
+      "thm_temp1_trans_count": [
+        0,
+        0
+      ],
+      "thm_temp2_trans_count": [
+        0,
+        0
+      ],
+      "thm_temp1_total_time": [
+        0,
+        0
+      ],
+      "thm_temp2_total_time": [
+        0,
+        0
+      ]
+    },
+    "selected_smart_delta": {
+      "critical_warning": 0,
+      "media_errors": 0,
+      "num_err_log_entries": 0,
+      "unsafe_shutdowns": 0,
+      "power_cycles": 0,
+      "warning_temp_time": 0,
+      "critical_comp_time": 0,
+      "thm_temp1_trans_count": 0,
+      "thm_temp2_trans_count": 0,
+      "thm_temp1_total_time": 0,
+      "thm_temp2_total_time": 0
+    },
+    "aer_counters_checked": 117,
+    "aer_nonzero_before_count": 0,
+    "aer_nonzero_after_count": 0,
+    "aer_changed_counter_count": 0,
+    "captured_storage_error_line_count": 0,
+    "final_full_file_verification_complete": true,
+    "supervisor_exit_zero_governor_restored": true
+  },
+  "gen3_boot": {
+    "nvme_link_8GTs_x1_confirmed": true,
+    "throttled_zero": true,
+    "aer_nonzero_counter_count": 0,
+    "selected_smart_change_from_gen2_after": {
+      "critical_warning": 0,
+      "media_errors": 0,
+      "num_err_log_entries": 0,
+      "unsafe_shutdowns": 0,
+      "power_cycles": 1,
+      "warning_temp_time": 0,
+      "critical_comp_time": 0,
+      "thm_temp1_trans_count": 0,
+      "thm_temp2_trans_count": 0,
+      "thm_temp1_total_time": 0,
+      "thm_temp2_total_time": 0
+    }
+  }
+}
