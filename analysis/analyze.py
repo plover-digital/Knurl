@@ -13,9 +13,11 @@ from scipy.stats import t
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from shapes import overview, pooled_histograms, ccdf
+from plot_utils import save_figure
 
 DIMS = ('mode', 'file_bytes', 'block_bytes', 'concurrency', 'pattern')
-METRICS = ('bandwidth_mib_s', 'iops', 'mean_latency_us', 'p50_latency_us', 'p95_latency_us', 'p99_latency_us', 'p999_latency_us')
+METRICS = ('bandwidth_mib_s', 'iops', 'mean_latency_us', 'min_latency_us', 'max_latency_us', 'p50_latency_us', 'p95_latency_us', 'p99_latency_us', 'p999_latency_us')
 
 def describe(values, metric):
     a = np.asarray(values, dtype=float)
@@ -86,6 +88,8 @@ def normalize(record):
     if len(active)>1:
         pooled=[sum(v['latency_ns']['histogram'][i] for v in active) for i in range(1024)]
         operations['combined']={'bytes':sum(v['bytes'] for v in active),'ops':sum(v['ops'] for v in active),'latency_ns':{'sum':sum(v['latency_ns']['sum'] for v in active),'histogram':pooled}}
+    if len(active)>1 and all('min' in v['latency_ns'] and 'max' in v['latency_ns'] for v in active):
+        operations['combined']['latency_ns'].update(min=min(v['latency_ns']['min'] for v in active),max=max(v['latency_ns']['max'] for v in active))
     for op,m in operations.items():
         if not m['ops']:continue
         lat=m['latency_ns'];hist=lat['histogram']
@@ -95,10 +99,12 @@ def normalize(record):
              'bandwidth_mib_s':m['bytes']/seconds/2**20,'iops':m['ops']/seconds,
              'mean_latency_us':lat['sum']/m['ops']/1000,'count':m['ops'],
              'latency_percentile_method':'pooled histogram upper bound' if op=='combined' else 'histogram upper bound'}
+        for extreme in ('min','max'):
+            if extreme in lat:row[f'{extreme}_latency_us']=lat[extreme]/1000
         row.update(histogram_percentiles(bins));rows.append(row)
     return rows
 
-def plots(out, cases, baseline=None, candidate=None):
+def plots(out, cases, baseline=None, candidate=None, validation=False):
     charts=out/'charts'; charts.mkdir(exist_ok=True)
     bandwidth=[r for r in cases if r['metric']=='bandwidth_mib_s']
     latency={(tuple(r[k] for k in DIMS),r['operation']):r for r in cases if r['metric']=='mean_latency_us'}
@@ -106,7 +112,7 @@ def plots(out, cases, baseline=None, candidate=None):
     for mode in sorted({r['mode'] for r in bandwidth}):
         rs=[r for r in bandwidth if r['mode']==mode and (tuple(r[k] for k in DIMS),r['operation']) in latency]
         plt.scatter([latency[(tuple(r[k] for k in DIMS),r['operation'])]['mean'] for r in rs],[r['mean'] for r in rs],label=mode,alpha=.65)
-    plt.xlabel('Mean operation latency (µs)');plt.ylabel('Bandwidth (MiB/s)');plt.xscale('log');plt.legend();plt.tight_layout();plt.savefig(charts/'bandwidth_latency.png');plt.close()
+    plt.xlabel('Mean operation latency (µs)');plt.ylabel('Bandwidth (MiB/s)');plt.xscale('log');plt.legend();plt.tight_layout();save_figure(plt.gcf(),charts/'bandwidth_latency.png',validation);plt.close()
     for dimension,label in [('block_bytes','Block size (bytes)'),('concurrency','Concurrency'),('file_bytes','File size (bytes)')]:
         fig,ax=plt.subplots(figsize=(12,7))
         groups=defaultdict(list)
@@ -114,11 +120,11 @@ def plots(out, cases, baseline=None, candidate=None):
         # Each curve fixes every other dimension. Many curves are deliberately faint.
         for key,rs in sorted(groups.items()):
             rs=sorted(rs,key=lambda r:r[dimension]); ax.plot([r[dimension] for r in rs],[r['mean'] for r in rs],alpha=.3,marker='.',lw=.8)
-        ax.set_xscale('log');ax.set_xlabel(label);ax.set_ylabel('Mean bandwidth (MiB/s)');ax.set_title('Each curve fixes mode, operation and all other dimensions');fig.tight_layout();fig.savefig(charts/f'{dimension}_sweep.png');plt.close(fig)
+        ax.set_xscale('log');ax.set_xlabel(label);ax.set_ylabel('Mean bandwidth (MiB/s)');ax.set_title('Each curve fixes mode, operation and all other dimensions');fig.tight_layout();save_figure(fig,charts/f'{dimension}_sweep.png',validation);plt.close(fig)
     fig,ax=plt.subplots(figsize=(11,5))
     rs=sorted(bandwidth,key=lambda r:tuple(str(r[k]) for k in DIMS)+(r['operation'],))
     ax.errorbar(range(len(rs)),[r['mean'] for r in rs],yerr=[(r['mean_ci95_high']-r['mean']) if r['mean_ci95_high'] is not None else 0 for r in rs],fmt='.',alpha=.6)
-    ax.set_xlabel('Case index (see per_case.csv for dimensions)');ax.set_ylabel('Bandwidth (MiB/s), mean ± 95% t CI');fig.tight_layout();fig.savefig(charts/'variation_ci.png');plt.close(fig)
+    ax.set_xlabel('Case index (see per_case.csv for dimensions)');ax.set_ylabel('Bandwidth (MiB/s), mean ± 95% t CI');fig.tight_layout();save_figure(fig,charts/'variation_ci.png',validation);plt.close(fig)
     gain=[]
     pairs=defaultdict(dict)
     for r in bandwidth:pairs[tuple(r[k] for k in DIMS if k!='mode')+(r['operation'],)][r['mode']]=r['mean']
@@ -142,7 +148,7 @@ def plots(out, cases, baseline=None, candidate=None):
                 if np.isfinite(value):ax.text(j,i,f'{value:.2f}×',ha='center',va='center',fontsize=8)
         for ax in list(axes.flat)[len(facets):]:ax.set_visible(False)
         fig.suptitle(f'{candidate} / {baseline} mean bandwidth ratio (green ≥ 2×; labels show exact ratio)')
-        fig.savefig(charts/'comparison_gain.png');plt.close(fig)
+        save_figure(fig,charts/'comparison_gain.png',validation);plt.close(fig)
     names=['bandwidth_latency.png','block_bytes_sweep.png','concurrency_sweep.png','file_bytes_sweep.png','variation_ci.png']
     if gain:names.append('comparison_gain.png')
     return [charts/name for name in names]
@@ -172,12 +178,34 @@ def main():
     if not a.baseline:
         matches={name:[label for label in labels if label.lower()==name] for name in ('gen2','gen3')}
         if all(len(v)==1 for v in matches.values()):a.baseline=matches['gen2'][0];a.candidate=matches['gen3'][0]
-    charts=plots(a.output,cases,a.baseline,a.candidate)
+    charts=plots(a.output,cases,a.baseline,a.candidate,a.validation_only)
+    pooled=pooled_histograms(records)
+    (a.output/'pooled_histograms.json').write_text(json.dumps(pooled,indent=2)+'\n')
+    write_csv(a.output/'pooled_histograms.csv',pooled)
+    charts += overview(a.output/'charts',cases,a.validation_only) + ccdf(a.output/'charts',pooled,a.validation_only)
     cells=Counter((r['config']['mode'],r['config']['file_size'],r['config']['block_size'],r['config']['concurrency'],r['config']['pattern']) for r in records)
     expected=set(itertools.product(('gen2','gen3'),(256*2**20,4*2**30,16*2**30),(4096,16384,65536,2**20),(1,8,32),('seq-read','seq-write','rand-read','rand-write','rand-mix70read30write')))
     actual={(str(k[0]).lower(),)+k[1:] for k in cells}
     complete=actual==expected and all(n==10 for n in cells.values()) and len(records)==3600
-    report=['# '+('SYNTHETIC VALIDATION ONLY' if a.validation_only else 'Knurl benchmark analysis'),' ',f'Analyzed {len(records)} trials across {len(cells)} cases. Experiment labels: {', '.join(labels)}. Repetitions per case: {min(cells.values())}–{max(cells.values())}. {('Full gen2/gen3 campaign check: '+('PASS' if complete else 'INCOMPLETE')+'.') if a.check_gen_campaign else 'No predefined campaign completeness check requested.'}',' ', 'Each operation is analyzed separately. Latency percentile summaries describe trial percentile variation; they are not a combined operation percentile. Histogram-derived percentiles use bin upper bounds.',' ', '[Per-trial CSV](per_trial.csv) · [Per-trial JSON](per_trial.json) · [Per-case CSV](per_case.csv) · [Per-case JSON](per_case.json)',' ', 'Sample standard deviation and Student-t 95% mean confidence intervals use independent trial values. Inspect variation and campaign completeness before drawing conclusions.',' ']
+    label_text=', '.join(labels)
+    campaign_status='No predefined campaign completeness check requested.'
+    if a.check_gen_campaign:
+        campaign_result='PASS' if complete else 'INCOMPLETE'
+        campaign_status=f'Full gen2/gen3 campaign check: {campaign_result}.'
+    trial_summary=(f'Analyzed {len(records)} trials across {len(cells)} cases. '
+                   f'Experiment labels: {label_text}. '
+                   f'Repetitions per case: {min(cells.values())}–{max(cells.values())}. '
+                   f'{campaign_status}')
+    report=[
+        '# '+('SYNTHETIC VALIDATION ONLY' if a.validation_only else 'Knurl benchmark analysis'),
+        '',trial_summary,'',
+        'Each operation is analyzed separately. Latency percentile summaries describe trial percentile variation; they are not a combined operation percentile. Histogram-derived percentiles use bin upper bounds.',
+        '',
+        '[Per-trial CSV](per_trial.csv) · [Per-trial JSON](per_trial.json) · [Per-case CSV](per_case.csv) · [Per-case JSON](per_case.json) · [Pooled histogram CSV](pooled_histograms.csv) · [Pooled histogram JSON](pooled_histograms.json)',
+        '',
+        'Sample standard deviation and Student-t 95% mean confidence intervals use independent trial values. Inspect variation and campaign completeness before drawing conclusions.',
+        '',
+    ]
     if not a.validation_only:
         report += ['## Observations', '']
         for mode in sorted({r['mode'] for r in cases}):
@@ -185,6 +213,7 @@ def main():
             if candidates:
                 best=max(candidates,key=lambda r:r['mean'])
                 report += [f"Highest observed case mean for {mode}: {best['mean']:.2f} MiB/s ({best['pattern']}, {best['operation']}, file {best['file_bytes']} bytes, block {best['block_bytes']} bytes, concurrency {best['concurrency']}, n={best['n']}). This identifies a measured case, not a universal hardware ceiling.", '']
+    report += ['The overview uses combined operations for mixed cases and the active direction otherwise. P95 overview curves summarize trial P95 values; the separate pooled CCDF weights each operation equally across repetitions and uses histogram boundaries, not averaged percentiles.', '']
     report += [f'![{f.stem}](charts/{f.name})' for f in charts]
     (a.output/'report.md').write_text('\n'.join(report)+'\n')
     print(f'{len(records)} trials, {len(cases)} metric summaries → {a.output}')
