@@ -1,6 +1,6 @@
 # Knurl
 
-Knurl measures storage I/O on dedicated regular files with a C11/POSIX-thread engine and an optional Python analysis pipeline. Build and run it locally on macOS or Linux, including a Raspberry Pi, or build and run the same source on a remote host over SSH. The engine does not require a particular disk, hostname, PCIe link, or privileged system configuration.
+Knurl provides a portable system checkout (`knurl-check`) for inventory, CPU, memory, loopback TCP, and opt-in disk checks, plus a dedicated file I/O benchmark (`knurl`) and optional Python analysis pipeline. Build and run it locally on macOS or Linux, including a Raspberry Pi, or build and run the same source on a remote host over SSH. The engine does not require a particular disk, hostname, PCIe link, or privileged system configuration.
 
 ## Build and quick check
 
@@ -15,6 +15,15 @@ cmake --build build
 ```
 
 CI builds on Linux and macOS. See the dated [portability validation record](docs/portability.md) for observed native smoke and integrity checks. The portable engine uses POSIX file/thread APIs; Windows is not supported. Linux direct I/O requires filesystem support for `O_DIRECT`; macOS uses `F_NOCACHE`. Other operating systems and 32-bit targets are not validated. The tests use tiny buffered files; they do not establish direct I/O support or SSD performance on a particular host.
+
+## Quick system checkout
+
+```sh
+./knurl-check inventory --target .
+./knurl-check check --duration .25 --repetitions 3 > checkout.json
+```
+
+This explicitly runs bounded CPU/memory checks and verified loopback TCP. Disk is reported `not_run` without explicit scratch/output paths. Results retain repetitions and summaries; this short checkout is not a full performance campaign. See [system checkout](docs/system-check.md), [CPU/memory](docs/cpu-memory.md), and [network](docs/network.md) for cases, verification, limits, and optional external-peer commands.
 
 ## Local run
 
@@ -36,7 +45,7 @@ The default matrix combines three file sizes (256 MiB, 4 GiB, 16 GiB), four bloc
 Compile on the target so the binary matches its OS and architecture. The following uses `paco` as an example configured SSH alias and generic paths; substitute the target scratch mount. SSH is transport only: all I/O and timing run on the remote host. `/mnt/test-volume` is a disk mounted on that remote host; this command does not test the local Mac disk or the SSH connection. The transfer excludes the locally built `knurl` binary, and `make` builds the target binary remotely.
 
 ```sh
-rsync -a --exclude .git --exclude knurl --exclude build --exclude results \
+rsync -a --exclude .git --exclude knurl --exclude knurl-check --exclude build --exclude results \
   --exclude work --exclude private ./ paco:knurl/
 ssh paco 'cd knurl && make && make test'
 ssh paco 'cd knurl && ./knurl \

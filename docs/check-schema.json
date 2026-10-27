@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Knurl system checkout envelope v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "suite",
+    "command",
+    "complete",
+    "config",
+    "modules"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "suite": {
+      "const": "knurl-check"
+    },
+    "command": {
+      "enum": [
+        "inventory",
+        "cpu",
+        "memory",
+        "network",
+        "disk",
+        "check"
+      ]
+    },
+    "complete": {
+      "type": "boolean"
+    },
+    "config": {
+      "type": "object",
+      "required": [
+        "duration_seconds",
+        "repetitions",
+        "threads",
+        "memory_bytes",
+        "seed",
+        "target"
+      ],
+      "properties": {
+        "duration_seconds": {
+          "type": "number",
+          "minimum": 0.001,
+          "maximum": 5
+        },
+        "repetitions": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30
+        },
+        "threads": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "memory_bytes": {
+          "type": "integer",
+          "minimum": 4096,
+          "maximum": 1073741824
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "target": {
+          "type": "string"
+        }
+      }
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "module"
+        ],
+        "properties": {
+          "module": {
+            "enum": [
+              "inventory",
+              "cpu",
+              "memory",
+              "network",
+              "disk"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "summary": {
+      "type": "object",
+      "required": [
+        "count",
+        "unit",
+        "min",
+        "max",
+        "mean",
+        "median",
+        "sd",
+        "p95",
+        "mean_ci95_low",
+        "mean_ci95_high",
+        "ci_method",
+        "sample_std",
+        "cv",
+        "p5",
+        "p99",
+        "exact_mode",
+        "exact_mode_status"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unit": {
+          "type": "string"
+        },
+        "min": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "max": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "mean": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "median": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "sd": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "p95": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "mean_ci95_low": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "mean_ci95_high": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "ci_method": {
+          "enum": [
+            "student_t_0.975_df_n_minus_1",
+            "normal_approximation_1.96_large_df",
+            "unavailable_without_repetitions"
+          ]
+        },
+        "sample_std": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "cv": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "p5": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "p99": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "exact_mode": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "exact_mode_status": {
+          "enum": [
+            "none/no samples",
+            "none/all unique",
+            "mode(s)"
+          ]
+        }
+      }
+    }
+  }
+}
