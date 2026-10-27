@@ -18,3 +18,5 @@ Worker concurrency differs from asynchronous queue depth. Linux direct I/O diffe
 ## Raspberry Pi Gen 2/Gen 3 campaign
 
 This optional campaign uses the default matrix and labels `gen2`/`gen3`. Confirm actual negotiated PCIe speed and width after each external configuration/reboot; do not infer them from requested settings. Gen 3 is experimental and not officially certified by Raspberry Pi. Record Pi model, power supply, SSD firmware, adapter, cooling, CPU governor, temperature, and throttling. If using the performance governor, restrict it to the test interval and restore the previous value. The default two-mode campaign has 3,600 measured trials; preparation and control collection add overhead to six hours of timed windows.
+
+Validate a stable collected copy using the [offline campaign validator](campaign-validation.md) before analysis. It checks measurement/commit consistency; full-file and platform-health acceptance remain separate evidence.

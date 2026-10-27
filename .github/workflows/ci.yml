@@ -25,3 +25,6 @@ jobs:
       - run: ./knurl-check check --duration .05 --repetitions 2 --memory-bytes 65536 > /tmp/knurl-actual-checkout.json
       - run: python analysis/analyze_checkout.py /tmp/knurl-actual-checkout.json --output /tmp/knurl-checkout-report
       - run: python analysis/validate_checkout.py /tmp/knurl-actual-checkout.json --analysis-dir /tmp/knurl-checkout-report
+      - run: ./knurl --work-dir /tmp/knurl-audit-work --output-dir /tmp/knurl-audit-run --mode ci-audit --file-sizes 1048576 --block-sizes 4096 --concurrency 1 --patterns seq-read,seq-write --repetitions 2 --duration .05 --warmup 0
+      - run: python analysis/validate_campaign.py /tmp/knurl-audit-run --output /tmp/knurl-audit-validation.json
+      - run: python analysis/validate_campaign_fixtures.py /tmp/knurl-audit-run
