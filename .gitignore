@@ -1,0 +1,14 @@
+/knurl
+/build/
+/results/
+/work/
+/private/
+*.o
+*.dSYM/
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.env.*
+*.pem
+*.key

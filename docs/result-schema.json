@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knurl.local/result-schema-v1.json",
+  "title": "Knurl v1 per-trial result",
+  "description": "One dedicated-file trial. concurrency is synchronous pthread worker count, never native async queue depth. Default Linux O_DIRECT or macOS F_NOCACHE is strict cache bypass; buffered mode is explicit. All operations launched before the common deadline are counted, including terminal completions. measured_seconds=max(requested window,last completion-common start). pwrite completion latency is not durable media latency: final fsync and integrity checks are outside the measured window. Latencies time pread/pwrite including partial-I/O retries, excluding deterministic write-buffer generation. Verified means 16 evenly spaced 4096-byte sectors matched seeded offset-based contents before/after; --verify separately checks entire files.",
+  "type": "object",
+  "required": ["schema_version", "trial_id", "complete", "verified", "config", "concurrency_kind", "measured_seconds", "monotonic_start_seconds", "monotonic_finish_seconds", "requested_window_seconds", "measurement_rule", "read", "write", "errors", "first_errno"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "trial_id": {"type": "integer", "minimum": 0},
+    "complete": {"type": "boolean"},
+    "verified": {"type": "boolean"},
+    "verification": {"const": "16_evenly_spaced_4096_byte_sectors_before_and_after"},
+    "concurrency_kind": {"const": "synchronous_worker_threads"},
+    "config": {"$ref": "#/$defs/config"},
+    "measured_seconds": {"type": "number", "exclusiveMinimum": 0},
+    "monotonic_start_seconds": {"type": "number", "minimum": 0},
+    "monotonic_finish_seconds": {"type": "number", "minimum": 0},
+    "requested_window_seconds": {"type": "number", "exclusiveMinimum": 0},
+    "measurement_rule": {"const": "launch_before_deadline_include_terminal_completions"},
+    "read": {"$ref": "#/$defs/stats"},
+    "write": {"$ref": "#/$defs/stats"},
+    "errors": {"type": "integer", "minimum": 0},
+    "first_errno": {"type": "integer", "minimum": 0}
+  },
+  "$defs": {
+    "config": {
+      "type": "object",
+      "required": ["mode", "file_size", "block_size", "concurrency", "pattern", "repetition", "seed", "duration_seconds", "warmup_seconds", "direct"],
+      "properties": {
+        "mode": {"type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$", "not": {"pattern": "[^A-Za-z0-9_.-]"}, "description": "Descriptive experiment label; default baseline. Existing gen2/gen3 labels are preserved. Labels do not configure hardware."},
+        "file_size": {"type": "integer", "minimum": 4096, "multipleOf": 4096},
+        "block_size": {"type": "integer", "minimum": 4096, "maximum": 67108864, "multipleOf": 4096},
+        "concurrency": {"type": "integer", "minimum": 1, "maximum": 1024},
+        "pattern": {"enum": ["seq-read", "seq-write", "rand-read", "rand-write", "rand-mix70read30write"]},
+        "repetition": {"type": "integer", "minimum": 1},
+        "seed": {"type": "integer", "minimum": 0},
+        "duration_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "warmup_seconds": {"type": "number", "minimum": 0},
+        "direct": {"type": "boolean"}
+      }
+    },
+    "stats": {
+      "type": "object",
+      "required": ["bytes", "ops", "bw_Bps", "iops", "latency_ns"],
+      "properties": {
+        "bytes": {"type": "integer", "minimum": 0},
+        "ops": {"type": "integer", "minimum": 0},
+        "bw_Bps": {"type": "number", "minimum": 0},
+        "iops": {"type": "number", "minimum": 0},
+        "latency_ns": {
+          "type": "object",
+          "description": "sum/min/max/mean use unquantized nanosecond samples (clock differences rounded to nearest ns); mean=sum/ops, zero if no operations. Histogram has 1024 bins, 16 per log2 octave: positive sample n has e=floor(log2(n)), s=floor(16*(n-2^e)/2^e), index=16e+s; zero maps bin0. Upper bound(index16e+s)=ceil(2^e*(1+(s+1)/16))-1, saturated at UINT64_MAX. Bin0 includes ns0 and ns1. Nearest-rank P50/P95/P99/P99.9 values are inclusive bin upper bounds, zero for empty samples; relative quantization width at most 6.25% apart from sub-ns rounding. Pool counts across trials/directions to compute pooled percentiles; do not average percentiles.",
+          "required": ["sum", "min", "max", "mean", "p50", "p95", "p99", "p999", "histogram"],
+          "properties": {
+            "sum": {"type": "integer", "minimum": 0},
+            "min": {"type": "integer", "minimum": 0},
+            "max": {"type": "integer", "minimum": 0},
+            "mean": {"type": "number", "minimum": 0},
+            "p50": {"type": "integer", "minimum": 0},
+            "p95": {"type": "integer", "minimum": 0},
+            "p99": {"type": "integer", "minimum": 0},
+            "p999": {"type": "integer", "minimum": 0},
+            "histogram": {"type": "array", "minItems": 1024, "maxItems": 1024, "items": {"type": "integer", "minimum": 0}}
+          }
+        }
+      }
+    }
+  }
+}
