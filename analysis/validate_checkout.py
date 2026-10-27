@@ -36,6 +36,15 @@ def main():
         bad=copy.deepcopy(small);bad['modules'][0]['cases'][0]['summary']['mean']=value;rejected(bad)
         bad=copy.deepcopy(small);bad['modules'][0]['cases'][0]['repetitions'][0]['rate']=value;rejected(bad)
     assert not scope_notes({'cpu':cpu},data.get('config',{}))
+    omitted=copy.deepcopy(small)
+    omitted['modules'].append({'module':'disk','status':'not_run','reason':'requires explicit --work-dir and --output-dir'})
+    extract(omitted)
+    omission_notes=' '.join(scope_notes({m['module']:m for m in omitted['modules']},data.get('config',{})))
+    assert 'not run' in omission_notes and 'Verified ' not in omission_notes
+    for status in ('error','notcomplete','failed'):
+        bad=copy.deepcopy(omitted);bad['modules'][-1]['status']=status;rejected(bad)
+    bad=copy.deepcopy(omitted);bad['modules'][-1].update(status='passed',full_byte_verification_before_and_after=False);rejected(bad)
+
     with tempfile.TemporaryDirectory(prefix='knurl-offline-checkout-validation-') as tmp:
         root=Path(tmp);input_path=root/'real_cpu_subset.json';input_path.write_text(json.dumps(small))
         subprocess.run([sys.executable,str(Path(__file__).with_name('analyze_checkout.py')),str(input_path),'--output',str(root/'analysis')],check=True,capture_output=True,text=True)
@@ -43,6 +52,11 @@ def main():
         assert 'Verified retained memory' not in report and 'disk scratch file' not in report
         assert 'physical NIC/link' not in report and '## Memory' not in report and '## Disk' not in report and '## Network' not in report
         assert '## CPU' in report
+        input_path.write_text(json.dumps(omitted))
+        subprocess.run([sys.executable,str(Path(__file__).with_name('analyze_checkout.py')),str(input_path),'--output',str(root/'disk-omitted')],check=True,capture_output=True,text=True)
+        report=(root/'disk-omitted'/'report.md').read_text()
+        assert 'Disk status: not_run' in report and 'disk scratch file before and after testing' not in report
+        assert 'no disk workload or scratch-file verification' in report
         # Synthetic fixtures remain rejected even if the presentation flag is set.
         input_path.write_text(json.dumps(synthetic))
         result=subprocess.run([sys.executable,str(Path(__file__).with_name('analyze_checkout.py')),str(input_path),'--output',str(root/'synthetic-rejected'),'--validation-only'],capture_output=True,text=True)

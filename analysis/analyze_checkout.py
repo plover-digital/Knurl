@@ -96,7 +96,10 @@ def extract(data):
                 if summary['count']!=len(bysize[case['payload_bytes']]):raise ValueError('Network summary/repetition count mismatch')
                 cases.append({'module':'network','case':metric,'payload_bytes':case['payload_bytes'],'scope':net['scope'],'physical_link_test':net['physical_link_test'],**summary,'summary_source':'C engine; preserved verbatim'})
     disk=modules.get('disk')
-    if disk and (disk.get('status')!='passed' or disk.get('full_byte_verification_before_and_after') is not True):raise ValueError('Disk module did not pass verification')
+    if disk:
+        status=disk.get('status')
+        if status not in ('passed','not_run'):raise ValueError('Disk module failed or has unsupported status')
+        if status=='passed' and disk.get('full_byte_verification_before_and_after') is not True:raise ValueError('Disk module did not pass verification')
     if not cases:raise ValueError('No CPU, memory or network observations found')
     return modules,repetitions,cases,rtts
 
@@ -159,7 +162,10 @@ def scope_notes(modules,config):
         notes.append(f"Verified retained memory working sets within a {config.get('memory_bytes','unknown')}-byte total allocation budget; this does not verify all installed RAM.")
     if 'disk' in modules:
         disk=modules['disk']
-        notes.append(f"Verified {disk.get('scratch_file_bytes','unknown')}-byte disk scratch file before and after testing; this does not verify the entire disk.")
+        if disk.get('status')=='not_run':
+            notes.append('Disk test was not run; scratch-file verification and device performance remain unassessed.')
+        else:
+            notes.append(f"Verified {disk.get('scratch_file_bytes','unknown')}-byte disk scratch file before and after testing; this does not verify the entire disk.")
     if 'inventory' in modules:
         health=modules['inventory'].get('storage_health',{}).get('status','unavailable')
         notes.append(f'Storage SMART/device health: {health}.')
@@ -196,8 +202,11 @@ def main():
         report+=table([r for r in cases if r['module']=='network'],lambda r:f"{r['payload_bytes']} bytes, {r['case']}")
         report+=['','Throughput times send-to-verified-ACK; RTT is full application ping-pong round trip, not one-way latency. The first large-payload RTT can include receiver expected-payload setup; all observations are retained.','']
     if 'disk' in modules:
-        report+=['## Disk','',f"Disk status: {disk['status']}; expected/completed trials: {disk.get('expected_and_completed_trials','unknown')}. Raw disk results are separate; no disk percentiles are recomputed by this script.",'']
-        if disk.get('raw_results_directory'):
+        if disk['status']=='not_run':
+            report+=['## Disk','','Disk status: not_run. The intentional default omission performs no disk workload or scratch-file verification; disk performance and device health are unassessed.','']
+        else:
+            report+=['## Disk','',f"Disk status: {disk['status']}; expected/completed trials: {disk.get('expected_and_completed_trials','unknown')}. Raw disk results are separate; no disk percentiles are recomputed by this script.",'']
+        if disk['status']=='passed' and disk.get('raw_results_directory'):
             import os
             link=os.path.relpath(disk['raw_results_directory'],args.output)
             report += [f'[Raw disk results directory]({link})','']
